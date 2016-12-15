@@ -1,6 +1,9 @@
 package softuniBlog.entity;
 
+
 import javax.persistence.*;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "articles")
@@ -12,6 +15,8 @@ public class Article {
     private String content;
 
     private User author;
+
+    private Category category;
 
     public Article() {    }
 
@@ -63,4 +68,10 @@ public class Article {
     public String getSummary(){
         return this.getContent().substring(0, this.getContent().length() / 2) + "...";
     }
+
+    @ManyToOne()
+    @JoinColumn(nullable = false, name = "categoryId")
+    public Category getCategory() { return category; }
+
+    public void setCategory(Category category) {this.category = category;}
 }
