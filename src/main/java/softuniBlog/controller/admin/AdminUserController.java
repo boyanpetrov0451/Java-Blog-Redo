@@ -17,9 +17,11 @@ import softuniBlog.repository.ArticleRepository;
 import softuniBlog.repository.RoleRepository;
 import softuniBlog.repository.UserRepository;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin/users")
@@ -34,6 +36,10 @@ public class AdminUserController {
     @GetMapping("/")
     public String listUsers(Model model){
         List<User> users = this.userRepository.findAll();
+
+        users = users.stream()
+                .sorted(Comparator.comparingInt(User::getId))
+                .collect(Collectors.toList());
 
         model.addAttribute("users", users);
         model.addAttribute("view", "admin/user/list");
