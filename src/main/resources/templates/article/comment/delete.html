@@ -3,10 +3,10 @@
         <div class="well">
             <form class="form-horizontal" th:action="@{/article/comment/delete/{id}(id=${comment.id})}" method="POST">
                 <fieldset>
-                    <legend>Delete Comment</legend>
+                    <legend></legend>
 
                     <div class="form-group">
-                        <label class="col-sm-4 control-label" for="comment_content">Content</label>
+                        <label class="col-sm-4 control-label" for="comment_content">Delete</label>
                         <div class="col-sm-6">
                             <textarea class="form-control" rows="6" id="comment_content" name="content" th:field="${comment.content}" disabled="disabled"></textarea>
                         </div>
