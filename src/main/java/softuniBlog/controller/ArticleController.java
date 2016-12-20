@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import softuniBlog.bindingModel.ArticleBindingModel;
-import softuniBlog.entity.Article;
-import softuniBlog.entity.Category;
-import softuniBlog.entity.Tag;
-import softuniBlog.entity.User;
+import softuniBlog.bindingModel.CommentBindingModel;
+import softuniBlog.entity.*;
 import softuniBlog.repository.ArticleRepository;
 import softuniBlog.repository.CategoryRepository;
 import softuniBlog.repository.TagRepository;
 import softuniBlog.repository.UserRepository;
+import softuniBlog.repository.CommentRepository;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,6 +34,8 @@ public class ArticleController {
     private CategoryRepository categoryRepository;
     @Autowired
     private TagRepository tagRepository;
+    @Autowired
+    private CommentRepository commentRepository;
 
     @GetMapping("/article/create")
     @PreAuthorize("isAuthenticated()")
@@ -85,7 +87,18 @@ public class ArticleController {
 
         Article article = this.articleRepository.findOne(id);
 
+        List<Comment> allComments = this.commentRepository.findAll();
+
+        ArrayList<Comment> comments = new ArrayList<>();
+
+        for (Comment comment : allComments) {
+            if (comment.getArticle() == article) {
+                comments.add(comment);
+            }
+        }
+
         model.addAttribute("article", article);
+        model.addAttribute("comments", comments);
         model.addAttribute("view", "article/details");
 
         return "base-layout";

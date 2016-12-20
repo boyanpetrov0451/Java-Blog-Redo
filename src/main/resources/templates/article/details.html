@@ -18,8 +18,8 @@
                     <footer>
 
                         <div class="pull-right">
-
-                            <th:block sec:authorize="isAuthenticated()" th:if="${user.isAdmin() OR user.isAuthor(article)}">
+                            <th:block sec:authorize="isAuthenticated()"><a class="btn btn-primary btn-xs" th:href="@{/article/comment/create/{id}(id = ${article.id})}">Comment</a></th:block>
+                            <th:block sec:authorize="isAuthenticated()"  th:if="${user.isAdmin() OR user.isAuthor(article)}">
                             <a class="btn btn-success btn-xs" th:href="@{/article/edit/{id}(id = ${article.id})}">Edit</a>
                             <a class="btn btn-danger btn-xs" th:href="@{/article/delete/{id}(id = ${article.id})}">Delete</a>
                             </th:block>
@@ -28,6 +28,30 @@
                         </div>
                     </footer>
                 </article>
+
+                <div class="container">
+                    <div class="well">
+                        <h3 align="center">Comments:</h3>
+                        <th:block th:each="comment : ${comments}">
+                            <div style="border: dotted #000000; border-radius: 5px; " class="col-md-6; well">
+                                <p th:text="${comment.content}"></p>
+                                <small class="author" th:text="${comment.author.fullName}"></small>
+                                <th:block sec:authorize="isAuthenticated()">
+
+                                    <a class="btn btn-success btn-xs"
+                                       th:href="@{/article/comment/edit/{id}(id = ${comment.id})}">Edit</a>
+                                    <a class="btn btn-danger btn-xs"
+                                       th:href="@{/article/comment/delete/{id}(id = ${comment.id})}">Delete</a>
+                                </th:block>
+                            </div>
+
+
+
+                        </th:block>
+
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
